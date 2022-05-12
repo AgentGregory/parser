@@ -1,6 +1,7 @@
 package ru.agentgregory.parser;
 
 import ru.agentgregory.parser.loader.Loader;
+import ru.agentgregory.parser.model.Article;
 import ru.agentgregory.parser.parser.HtmlParser;
 
 import java.io.IOException;
@@ -8,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.List;
 
 public class ParserRunning {
 
@@ -20,6 +22,6 @@ public class ParserRunning {
         HtmlParser parser = new HtmlParser();
         String response = loader.load(HABR_URL);
 
-        parser.parse(response);
+        List<Article> articles = parser.parse(response);
     }
 }

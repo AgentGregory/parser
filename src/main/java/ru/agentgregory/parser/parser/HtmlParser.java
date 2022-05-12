@@ -6,7 +6,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import ru.agentgregory.parser.ParserRunning;
 import ru.agentgregory.parser.model.Article;
+import ru.agentgregory.parser.model.User;
 
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,7 +22,11 @@ public class HtmlParser {
         List<Article> articles = new ArrayList<>();
 
         for (Element articleElem : articleElems) {
-            String username = articleElem.select(".tm-user-info__user").text();
+
+
+            Elements userInf = articleElem.select(".tm-user-info__user");
+            String username = userInf.select(".tm-user-info__user").text();
+            String urlUser = ParserRunning.HABR_DOMAIN + userInf.attr("href");
 
             Elements titleEl = articleElem.select(".tm-article-snippet__title-link");
             String title = titleEl.select("span").text();
@@ -28,7 +34,21 @@ public class HtmlParser {
 
             String description = articleElem.select(".article-formatted-body p").text();
 
-            articles.add(new Article(username, title, description, url));
+
+            Elements pubDate = articleElem.select(".tm-article-snippet__datetime-published");
+            Elements publDate = pubDate.select("time");
+            ZonedDateTime publishDateTime = ZonedDateTime.parse(publDate.attr("datetime"));
+
+            User user = new User(username, urlUser);
+
+            String rep = articleElem.select(".tm-votes-meter__value").text();
+            String view = articleElem.select(".tm-icon-counter__value").text();
+            String rep = articleElem.select(".tm-votes-meter__value").text();
+            String rep = articleElem.select(".tm-votes-meter__value").text();
+
+
+
+            articles.add(new Article(user, username, title, description, url, publishDateTime));
         }
         return articles;
     }
