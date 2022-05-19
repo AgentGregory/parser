@@ -1,27 +1,30 @@
 package ru.agentgregory.parser;
 
-import ru.agentgregory.parser.loader.Loader;
-import ru.agentgregory.parser.model.Article;
-import ru.agentgregory.parser.parser.HtmlParser;
+import lombok.RequiredArgsConstructor;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import ru.agentgregory.parser.service.loader.Loader;
+import ru.agentgregory.parser.service.parser.HtmlParser;
+import ru.agentgregory.parser.service.storage.ApplicationStorage;
 
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
-import java.util.List;
+@SpringBootApplication
+@RequiredArgsConstructor
+public class ParserRunning implements CommandLineRunner {
 
-public class ParserRunning {
+    private final Loader loader;
+    private final HtmlParser parser;
+    private final ApplicationStorage storage;
 
     public static final String HABR_DOMAIN = "https://habr.com";
     private static final String HABR_URL = HABR_DOMAIN + "/ru/all/";
 
-    public static void main(String[] args) throws IOException {
-        Loader loader = new Loader();
+    public static void main(String[] args){
+        SpringApplication.run(ParserRunning.class, args);
+    }
 
-        HtmlParser parser = new HtmlParser();
-        String response = loader.load(HABR_URL);
+    @Override
+    public void run(String... args) throws Exception {
 
-        List<Article> articles = parser.parse(response);
     }
 }
