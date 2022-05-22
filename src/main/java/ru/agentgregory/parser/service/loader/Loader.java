@@ -5,21 +5,22 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import ru.agentgregory.parser.service.loader.exception.LoaderException;
 
 import javax.security.auth.login.LoginException;
 @Component
 @RequiredArgsConstructor
 public class Loader {
 
-    private RestTemplate restTemplate;
+    private final RestTemplate restTemplate;
 
-    public String load(String url){
+    public String load(String url) throws LoaderException {
         ResponseEntity<String> response = restTemplate.getForEntity(url, String.class);
-    /*    if (response.getStatusCode().isError()){
-            throw new ru.agentgregory.parser.loader.exception.LoadEx("bad status code"); //extends Exception
+        if (response.getStatusCode().isError()){
+            throw new LoaderException("bad status code");
 
         }
-*/    return response.getBody();
+    return response.getBody();
     }
 
 }

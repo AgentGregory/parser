@@ -1,12 +1,13 @@
 package ru.agentgregory.parser.model;
 
-import jdk.jfr.Category;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.stat.Statistics;
 import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
+import java.time.Instant;
 import java.time.ZonedDateTime;
 import java.util.List;
 
@@ -23,27 +24,33 @@ public class Article {
     @ManyToOne
     @JoinColumn(name = "user_id")
     private User user;
-    private String username;
-//    private List<Categores> categories;
+    private Instant publishDate;
+    @ManyToMany
+    @JoinTable(
+            name = "articles_categories",
+            joinColumns = @JoinColumn(name = "article_id"),
+            inverseJoinColumns =  @JoinColumn(name = "category_id")
+    )
+    private List<Category> categories;
     private String title;
     private String description;
     private String url;
-    private ZonedDateTime publishDateTime;
-//    @ManyToOne
-//    @JoinColumn(name = "statistic_id")
-//    //private Statistic statistic;
+    @ManyToOne
+    @JoinColumn(name = "statistic_id")
+    private Statistic statistic;
 
-    public Article(User user, String username, String title, String description, String url, ZonedDateTime publishDateTime) {
+    public Article(User user, ZonedDateTime publishDate, List<Category> categories, String title, String description, String url, Statistic statistic) {
         this.user = user;
-        this.username = username;
+        this.publishDate = publishDate.toInstant();
+        this.categories = categories;
         this.title = title;
         this.description = description;
         this.url = url;
-        this.publishDateTime = publishDateTime;
-
+        this.statistic = statistic;
     }
-
 }
+
+
 
 
 

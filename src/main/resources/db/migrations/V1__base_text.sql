@@ -12,5 +12,4 @@ CREATE TABLE articles
     url      VARCHAR   NOT NUll
     };
 
-INSERT INTO users (username) VALUES ('papich'),('obama'),('putin');
 

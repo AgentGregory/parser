@@ -1,4 +1,4 @@
-package ru.agentgregory.parser.service.storage;
+package ru.agentgregory.parser.repository;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.repository.CrudRepository;
@@ -10,8 +10,11 @@ import ru.agentgregory.parser.model.User;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface UserRepository extends CrudRepository<User, Long> {
 
+
+    Optional<User> findByUsername(String username);
 }
