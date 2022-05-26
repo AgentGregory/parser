@@ -10,6 +10,9 @@ import ru.agentgregory.parser.service.loader.exception.LoaderException;
 import ru.agentgregory.parser.service.parser.HtmlParser;
 import ru.agentgregory.parser.service.storage.ApplicationStorage;
 
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
 
 @SpringBootApplication
@@ -37,5 +40,14 @@ public class ParserRunner implements CommandLineRunner {
             e.printStackTrace();
         }
 
+
+
+        try (FileOutputStream outputStream = new FileOutputStream("/var/www/data.txt")) {
+            String s = "asdazczcx";
+            outputStream.write(s.getBytes(), 28, s.length());
+        } catch (
+                IOException e) {
+            System.out.println(e.getMessage());
+        }
     }
 }

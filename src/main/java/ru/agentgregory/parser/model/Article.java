@@ -4,7 +4,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.hibernate.stat.Statistics;
-import org.springframework.data.annotation.Id;
 
 import javax.persistence.*;
 import java.time.Instant;
