@@ -15,7 +15,7 @@ public class User {
     @Id
     @GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq")
-    private Long id; // na kajdyu
+    private Long id;
     private String username;
     private String url;
 

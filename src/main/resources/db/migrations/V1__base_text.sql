@@ -16,7 +16,7 @@ CREATE TABLE articles
 CREATE TABLE categories
 (
     id   BIGSERIAL PRIMARY KEY,
-    name VARCHAR NOT NULL,
+    names VARCHAR NOT NULL,
     url  VARCHAR NOT NULL
 );
 

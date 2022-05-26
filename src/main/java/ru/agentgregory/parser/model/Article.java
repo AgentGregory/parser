@@ -12,11 +12,10 @@ import java.time.ZonedDateTime;
 import java.util.List;
 
 @Entity
+@Table(name = "articles")
 @Data
 @NoArgsConstructor
-@Table(name = "articles")
 public class Article {
-    @javax.persistence.Id
     @Id
     @GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "article_gen", sequenceName = "articles_id_seq", allocationSize = 1)
