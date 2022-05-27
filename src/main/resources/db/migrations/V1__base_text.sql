@@ -1,50 +1,41 @@
-CREATE TABLE users
+create table users
 (
-    id       BIGSERIAL PRIMARY KEY,
-    username VARCHAR NOT NUll,
-    url      VARCHAR NOT NUll
+    id       bigserial primary key,
+    username varchar   not null unique,
+    url      varchar   not null
+);
+create table categories
+(
+    id    bigserial primary key,
+    names varchar   not null unique,
+    url   varchar   not null
 );
 
-CREATE TABLE articles
+create table statistics
 (
-    id       BIGSERIAL PRIMARY KEY,
-    user_id  BIGINT  NOT NULL references users (id),
-    username VARCHAR NOT NUll,
-    url      VARCHAR NOT NUll
+    id         bigserial primary key,
+    reputation integer   not null ,
+    views      integer   not null ,
+    bookmarks  integer   not null ,
+    comment    integer   not null
 );
 
-CREATE TABLE categories
+create table articles
 (
-    id   BIGSERIAL PRIMARY KEY,
-    names VARCHAR NOT NULL,
-    url  VARCHAR NOT NULL
+    id           bigserial primary key,
+    user_id      bigint    not null references users (id),
+    statistic_id bigint    not null references statistics (id),
+    publishData  timestamp not null,
+    title        varchar   not null,
+    description  varchar   not null,
+    url          varchar   not null,
+    unique (user_id, title)
 );
 
-CREATE TABLE statistics
+create table articles_categories
 (
-    id         BIGSERIAL PRIMARY KEY,
-    reputation INTEGER,
-    views      INTEGER,
-    bookmarks  INTEGER,
-    comment    INTEGER
-);
-
-CREATE TABLE articles
-(
-    id           BIGSERIAL PRIMARY KEY,
-    user_id      BIGINT    NOT NULL references users (id),
-    statistic_id BIGINT    NOT NULL references statistics (id),
-    publishData  TIMESTAMP NOT NULL,
-    title        VARCHAR   NOT NULL,
-    description  VARCHAR   NOT NULL,
-    url          VARCHAR   NOT NULL
-    /*UNIQUE (user_id, title)*/
-);
-
-CREATE TABLE articles_categories
-(
-    article_id    BIGINT NOT NULL references articles (id),
-    categories_id BIGINT NOT NULL references categories (id)
+    article_id    bigint not null references articles (id),
+    categories_id bigint not null references categories (id)
 );
 
 

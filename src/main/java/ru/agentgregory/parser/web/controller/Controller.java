@@ -32,12 +32,13 @@ public class Controller {
 
     @GetMapping("/user?user={userId}")
     public List<Article> getArticlesByUsers(@RequestParam Long userId) { //localhost:8000/article/user?userId = 2
-        return List.of();
+        return articleService.getByUser(userId);
     }
 
     @PostMapping("/date")
     public List<Article> gerArticlesByDate(@RequestBody Instant date) {
-        return List.of();
+
+        return articleService.getByPublishDate(date);
     }
 
     @GetMapping(value = "/new/file", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
@@ -54,12 +55,14 @@ public class Controller {
             return new byte[0];
         }
     }
+
     @PostMapping("/write/file")
     public void writeArticles(@RequestBody byte[] bytes) throws IOException {
         String s = new String(bytes, StandardCharsets.UTF_8);
         String decode = URLDecoder.decode(s, StandardCharsets.UTF_8);
-        List<Article> articles = objectMapper.readValue(decode, new TypeReference<List<Article>>() {});
-        for (Article article : articles){
+        List<Article> articles = objectMapper.readValue(decode, new TypeReference<List<Article>>() {
+        });
+        for (Article article : articles) {
             System.out.println(article.getTitle());
         }
     }
