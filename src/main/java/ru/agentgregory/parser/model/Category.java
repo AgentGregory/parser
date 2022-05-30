@@ -1,5 +1,6 @@
 package ru.agentgregory.parser.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -20,6 +21,7 @@ public class Category {
     private String name;
     private String url;
 
+    @JsonIgnore
     @ManyToMany(mappedBy = "categories")
     private List<Article> articles;
 
