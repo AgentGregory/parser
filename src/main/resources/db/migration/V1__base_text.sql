@@ -28,8 +28,8 @@ create table articles
     publishData  timestamp not null,
     title        varchar   not null,
     description  varchar   not null,
-    url          varchar   not null,
-    unique (user_id, title)
+    url          varchar   not null
+/*    unique (user_id, title)*/
 );
 
 create table articles_categories

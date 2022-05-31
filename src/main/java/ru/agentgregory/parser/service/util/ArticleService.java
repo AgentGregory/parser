@@ -10,7 +10,6 @@ import ru.agentgregory.parser.repository.UserRepository;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +36,7 @@ public class ArticleService {
         Optional<User> user = userRepository.findById(userId);
         if (user.isEmpty())
             return Collections.emptyList();
-        return articleRepository.getAllByUsers(user.get());
+        return articleRepository.getAllByUser(user.get());
     }
 
     public List<Article> getByPublishDate(Instant date) {

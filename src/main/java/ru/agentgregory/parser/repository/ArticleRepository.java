@@ -13,7 +13,7 @@ import java.util.Optional;
 public interface ArticleRepository extends JpaRepository<Article, Long> {
     Optional<Article> findByUserAndUrl(User user, String url);
 
-    List<Article> getAllByUsers(User user);
+    List<Article> getAllByUser(User user);
 
     List<Article> getAllByPublishDate(Instant date);
 }

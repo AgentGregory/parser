@@ -42,7 +42,7 @@ public class ApplicationStorage {
 
     @Transactional
     private Category saveCategory(Category category) {
-        Optional<Category> categoryOptional = categoryRepository.findByName(category.getName());
+        Optional<Category> categoryOptional = categoryRepository.findByName(category.getNames());
         return categoryOptional.isEmpty()
                 ? categoryRepository.save(category)
                 : categoryOptional.get();

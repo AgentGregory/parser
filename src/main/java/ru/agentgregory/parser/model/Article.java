@@ -16,7 +16,7 @@ import java.util.List;
 @NoArgsConstructor
 public class Article {
     @Id
-    @GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(generator = "article_gen", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "article_gen", sequenceName = "articles_id_seq", allocationSize = 1)
     private Long id;
     @ManyToOne

@@ -14,8 +14,8 @@ import java.util.List;
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(generator = "", strategy = GenerationType.SEQUENCE)
-    @SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq")
+    @GeneratedValue(generator = "article_gen", strategy = GenerationType.SEQUENCE)
+    @SequenceGenerator(name = "users_gen", sequenceName = "users_id_seq", allocationSize = 1)
     private Long id;
     private String username;
     private String url;
