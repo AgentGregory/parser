@@ -5,23 +5,28 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import ru.agentgregory.parser.model.Article;
+import ru.agentgregory.parser.model.Category;
+import ru.agentgregory.parser.repository.CategoryRepository;
+import ru.agentgregory.parser.service.renameNado.CustomTaskExecutor;
 import ru.agentgregory.parser.service.loader.Loader;
-import ru.agentgregory.parser.service.loader.exception.LoaderException;
 import ru.agentgregory.parser.service.parser.HtmlParser;
 import ru.agentgregory.parser.service.storage.ApplicationStorage;
 
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.*;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RequiredArgsConstructor
 public class ParserRunner implements CommandLineRunner {
 
-    private final Loader loader;
-    private final HtmlParser parser;
-    private final ApplicationStorage storage;
+
+    private final CustomTaskExecutor executor;
+    private final CategoryRepository categoryRepository;
+
+    private ExecutorService executorService = Executors.newFixedThreadPool(3);
+
 
     public static final String HABR_DOMAIN = "https://habr.com";
     private static final String HABR_URL = HABR_DOMAIN + "/ru/all/";
@@ -31,23 +36,24 @@ public class ParserRunner implements CommandLineRunner {
     }
 
     @Override
-    public void run(String... args) throws Exception {
-        try {
-            String response = loader.load(HABR_URL);
-            List<Article> articles = parser.parse(response);
-            storage.saveData(articles);
-        } catch (LoaderException e) {
-            e.printStackTrace();
+    public void run(String... args) throws InterruptedException {
+        List<String> urls = List.of("https://habr.com/ru/all/pm",
+                "https://habr.com/ru/all/read",
+                "https://habr.com/ru/all/ui");
+
+        List<Callable<List<Article>>> tasks = categoryRepository.findAll().stream()
+                .map(category -> (Callable<List<Article>>) () -> executor.execute(category.getUrl()))
+                .collect(Collectors.toList());
+
+
+        List<Article> result = new ArrayList<>();
+        for (Future<List<Article>> future : executorService.invokeAll(tasks)) {
+            try {
+                result.addAll(future.get());
+            } catch (ExecutionException e) {
+                System.out.println("hui");
+            }
         }
-
-
-
-        try (FileOutputStream outputStream = new FileOutputStream("/var/www/data.txt")) {
-            String s = "asdazczcx";
-            outputStream.write(s.getBytes(), 28, s.length());
-        } catch (
-                IOException e) {
-            System.out.println(e.getMessage());
-        }
+        System.out.println("hui");
     }
 }
