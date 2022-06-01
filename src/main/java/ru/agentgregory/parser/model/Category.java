@@ -18,7 +18,7 @@ public class Category {
     @GeneratedValue(generator = "categories_gen", strategy = GenerationType.SEQUENCE)
     @SequenceGenerator(name = "categories_gen", sequenceName = "categories_id_seq", allocationSize = 1)
     private Long id;
-    private String names;
+    private String name;
     private String url;
 
     @JsonIgnore
@@ -26,7 +26,7 @@ public class Category {
     private List<Article> articles;
 
     public Category(String name, String url) {
-        this.names = name;
+        this.name = name;
         this.url = url;
     }
 }
