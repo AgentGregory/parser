@@ -22,7 +22,7 @@ public class Category {
     private String url;
 
     @JsonIgnore
-    @ManyToMany(mappedBy = "categories")
+    @ManyToMany(mappedBy = "categories", fetch = FetchType.LAZY)
     private List<Article> articles;
 
     public Category(String name, String url) {
