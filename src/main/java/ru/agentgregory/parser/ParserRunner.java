@@ -40,14 +40,5 @@ public class ParserRunner implements CommandLineRunner {
             e.printStackTrace();
         }
 
-
-
-        try (FileOutputStream outputStream = new FileOutputStream("/var/www/data.txt")) {
-            String s = "asdazczcx";
-            outputStream.write(s.getBytes(), 28, s.length());
-        } catch (
-                IOException e) {
-            System.out.println(e.getMessage());
-        }
     }
 }
